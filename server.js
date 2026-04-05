@@ -16,9 +16,9 @@ const dns = require('dns');
 dns.setDefaultResultOrder('ipv4first');
 
 // Import Models
-const User = require('./models/User');
-const Product = require('./models/Product');
-const Order = require('./models/Order');
+const User = require('./models/user');
+const Product = require('./models/product');
+const Order = require('./models/order');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -543,6 +543,6 @@ app.get('/admin/orders/decline/:id', checkAuth, async(req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`MongoDB Server is running on http://localhost:${PORT}`);
 });
