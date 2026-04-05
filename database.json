@@ -1,0 +1,318 @@
+{
+  "products": [
+    {
+      "id": 1775133326667,
+      "name": "all in one",
+      "description": "a,b,c,d",
+      "price": 1200,
+      "image_url": "/uploads/1775133326525.avif"
+    },
+    {
+      "id": 1775133568058,
+      "name": "saman",
+      "description": "one of the useless person in the world",
+      "price": 10,
+      "image_url": "/uploads/1775133568019.jpg"
+    },
+    {
+      "id": 1775146774568,
+      "name": "Vintage jersey",
+      "description": "your dream",
+      "price": 1000,
+      "category": "Vintage Jersey",
+      "image_url": "/uploads/1775146774544.webp"
+    },
+    {
+      "id": 1775153191590,
+      "name": "Safwan",
+      "description": "Another one of the useless product in the world",
+      "price": 10,
+      "category": "General",
+      "image_url": "/uploads/1775153187568.jpg"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1775133632696,
+      "customer_name": "saman",
+      "customer_email": "samanhossen8@gmail.com",
+      "customer_address": "x,y,z",
+      "product_id": "1775133326667",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775155134915,
+      "customer_name": "Saman",
+      "customer_email": "samanhossen8@gmail.com",
+      "customer_address": "Bolbo na😒",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775153191590",
+      "status": "Pending"
+    },
+    {
+      "id": 1775155658923,
+      "customer_name": "De",
+      "customer_email": "samuakter94@gmail.com",
+      "customer_address": "HALISHAHAR",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775153191590",
+      "status": "Pending"
+    },
+    {
+      "id": 1775158099183,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Declined"
+    },
+    {
+      "id": 1775160437738,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Declined"
+    },
+    {
+      "id": 1775160776221,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Pending"
+    },
+    {
+      "id": 1775161055422,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Pending"
+    },
+    {
+      "id": 1775161386776,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775161552002,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Declined"
+    },
+    {
+      "id": 1775162296683,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Declined"
+    },
+    {
+      "id": 1775162740727,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "abc",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Pending"
+    },
+    {
+      "id": 1775216150452,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "amr bashai",
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775146774568",
+      "status": "Declined"
+    },
+    {
+      "id": 1775218467670,
+      "customer_name": "Umme Tahira ",
+      "customer_email": "ummetahira988@gmail.com",
+      "customer_address": "Abc",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 70,
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133568058",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775218722830,
+      "customer_name": "Ami kukur",
+      "customer_email": "samanhossen9@gmail.com",
+      "customer_address": "Kukur er gor",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 1260,
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133326667",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775224894399,
+      "customer_name": "safwan",
+      "customer_email": "mdsafwanhossen91@gmail.com",
+      "customer_address": "khurshad alom residential area, chawakbazar",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 1060,
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775146774568",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775225823394,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "Abc",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 1260,
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133326667",
+      "status": "Pending"
+    },
+    {
+      "id": 1775226001490,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "amr bashai",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 1260,
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133326667",
+      "status": "Pending"
+    },
+    {
+      "id": 1775226659325,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "amr gor e",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 4860,
+      "quantity": 4,
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "product_id": "1775133326667",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775227909101,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "futkir bashai",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 1070,
+      "items": [
+        {
+          "product_id": 1775133568058,
+          "name": "saman",
+          "price": 10,
+          "quantity": 1
+        },
+        {
+          "product_id": 1775146774568,
+          "name": "Vintage jersey",
+          "price": 1000,
+          "quantity": 1
+        }
+      ],
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "status": "Accepted"
+    },
+    {
+      "id": 1775228479483,
+      "customer_name": "Md Saman Hossen",
+      "customer_email": "samanhossen12@gmail.com",
+      "customer_address": "amr bashai",
+      "shipping_area": "Inside Chittagong",
+      "shipping_fee": 60,
+      "total_amount": 1080,
+      "items": [
+        {
+          "product_id": 1775133568058,
+          "name": "saman",
+          "price": 10,
+          "quantity": 1
+        },
+        {
+          "product_id": 1775146774568,
+          "name": "Vintage jersey",
+          "price": 1000,
+          "quantity": 1
+        },
+        {
+          "product_id": 1775153191590,
+          "name": "Safwan",
+          "price": 10,
+          "quantity": 1
+        }
+      ],
+      "payment_method": "Cash on Delivery",
+      "transaction_id": "N/A",
+      "status": "Accepted"
+    }
+  ],
+  "users": [
+    {
+      "id": 1775156945345,
+      "name": "Md Saman Hossen",
+      "email": "samanhossen12@gmail.com",
+      "password": "$2b$10$APV8NZxQ//1ZLcGgPtD8HuSKJKyA/7J9.PRGvUXkjEhztYamEa3R6"
+    },
+    {
+      "id": 1775218341188,
+      "name": "Umme Tahira ",
+      "email": "ummetahira988@gmail.com",
+      "password": "$2b$10$6daQ0zcxnje2fvNyCttl/OvibczvqbFoD6dHmjzpnBLHfwg3Qz97i"
+    },
+    {
+      "id": 1775218704304,
+      "name": "Ami kukur",
+      "email": "samanhossen9@gmail.com",
+      "password": "$2b$10$zB732gCnmufRPaCiuArarOfiQT0I5R3k/u041D0.VN0qYSP.626nW"
+    },
+    {
+      "id": 1775224827985,
+      "name": "safwan",
+      "email": "mdsafwanhossen91@gmail.com",
+      "password": "$2b$10$9JDt6IsjTIRZ9pwctisQQ.QZbSCj0nwahMJE.ZCFEnmoGbobujVfa"
+    }
+  ],
+  "adminEmail": "samanhossen12@gmail.com"
+}

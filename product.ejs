@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy
+        <%= product.name %>
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            padding: 40px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .image-col {
+            flex: 1;
+            text-align: center;
+            min-width: 300px;
+        }
+        
+        .image-col img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+        
+        h1 {
+            color: #ff4b2b;
+            margin-top: 0;
+        }
+        
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .price {
+            font-size: 2em;
+            color: #28a745;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        input,
+        select,
+        textarea,
+        button {
+            margin-bottom: 20px;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #eee;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #ff4b2b;
+            outline: none;
+        }
+        
+        button {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 15px;
+            border-radius: 25px;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+        
+        .payment-instructions {
+            background: #fff8e1;
+            padding: 15px;
+            border-left: 4px solid #ffca28;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: none;
+        }
+        /* Mobile Optimization */
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+            .image-col,
+            .info-col {
+                min-width: 100%;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .price {
+                font-size: 1.5em;
+            }
+            button {
+                padding: 12px;
+                font-size: 1em;
+            }
+            input,
+            select,
+            textarea {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-col">
+            <a href="/" class="back-link">← Back to Shop</a>
+            <% if(product.image_url) { %>
+                <img src="<%= product.image_url %>" alt="<%= product.name %>">
+                <% } else { %>
+                    <div style="height:300px; background:#e0e0e0; display:flex; align-items:center; justify-content:center;">No Image Available</div>
+                    <% } %>
+        </div>
+        <div class="info-col">
+            <span class="category-badge"><%= product.category || 'General' %></span>
+            <h1>
+                <%= product.name %>
+            </h1>
+            <p>
+                <%= product.description %>
+            </p>
+            <div class="price" id="display-price">৳
+                <%= parseFloat(product.price).toFixed(2) %>
+            </div>
+
+            <p id="shipping-display" style="display:none; font-weight:bold; color:#777; margin-top:-10px;">
+                + ৳<span id="shipping-amount">0</span> Shipping
+            </p>
+
+            <h2>Add to Cart</h2>
+            <div style="display: flex; gap: 15px; flex-direction: column;">
+                <form action="/cart/add" method="POST" style="width: 100%;">
+                    <input type="hidden" name="product_id" value="<%= product.id %>">
+
+                    <% if (product.category === 'Clothing' || product.category === 'Vintage Jersey') { %>
+                        <label style="display:block; margin-bottom:8px; font-weight: bold; color: #555;">Size:</label>
+                        <select name="size" required style="width: 100%; box-sizing: border-box; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+                            <option value="">Select Size</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                        <% } %>
+
+                            <label style="display:block; margin-bottom:8px; font-weight: bold; color: #555;">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" value="1" min="1" required oninput="calculateTotal()" onchange="calculateTotal()" style="width: 100%; box-sizing: border-box; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+
+                            <button type="submit" style="background: linear-gradient(to right, #ff416c, #ff4b2b); width: 100%; border: none; padding: 14px; cursor: pointer; color: white; font-size: 1.1em; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3); transition: transform 0.2s;">Add to Cart 🛒</button>
+                </form>
+
+                <% if (locals.user && typeof locals.user !== 'undefined') { %>
+                    <form action="/wishlist/toggle" method="POST" style="width: 100%;">
+                        <input type="hidden" name="product_id" value="<%= product.id %>">
+                        <button type="submit" style="background-color: white; border: 2px solid #ccc; color: #555; width: 100%; padding: 14px; margin-bottom: 20px; cursor: pointer; font-size: 1.1em; font-weight: bold; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s; text-decoration: none;">
+                        <% if (user.wishlist && user.wishlist.some(id => id.toString() === product.id)) { %>
+                            <span style="color: #ff4d4f; font-size: 1.3em;">❤️</span> Remove from Wishlist
+                        <% } else { %>
+                            <span style="color: #999; font-size: 1.3em;">🤍</span> Add to Wishlist
+                        <% } %>
+                    </button>
+                    </form>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Reviews Section -->
+    <div style="max-width: 900px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);">
+        <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Customer Reviews</h2>
+
+        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 30px;">
+            <div style="font-size: 3em; font-weight: bold; color: #4CAF50;">
+                <%= product.average_rating ? product.average_rating.toFixed(1) : parseFloat('0').toFixed(1) %>
+            </div>
+            <div>
+                <div style="color: #ffc107; font-size: 1.5em; margin-bottom: 5px;">
+                    <% const avg = product.average_rating || 0; %>
+                        <% for(let i=1; i<=5; i++) { %>
+                            <i style="color: <%= i <= Math.round(avg) ? '#ffc107' : '#e4e5e9' %>;">★</i>
+                            <% } %>
+                </div>
+                <span style="color: #777;">Based on <%= product.reviews ? product.reviews.length : 0 %> reviews</span>
+            </div>
+        </div>
+
+        <% if (locals.user && typeof locals.user !== 'undefined') { %>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <h3 style="margin-top: 0; font-size: 1.1em;">Write a Review</h3>
+                <form action="/product/<%= product.id %>/review" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Rating (1-5)</label>
+                        <select name="rating" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; max-width: 100px;">
+                            <option value="5">5 ★★★★★</option>
+                            <option value="4">4 ★★★★☆</option>
+                            <option value="3">3 ★★★☆☆</option>
+                            <option value="2">2 ★★☆☆☆</option>
+                            <option value="1">1 ★☆☆☆☆</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Your Comment (<%= user.name %>)</label>
+                        <textarea name="comment" rows="3" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; resize: vertical;"></textarea>
+                    </div>
+                    <button type="submit" style="background-color: #2196F3; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; align-self: flex-start; font-weight: bold;">Submit Review</button>
+                </form>
+            </div>
+            <% } %>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <% if (product.reviews && product.reviews.length > 0) { %>
+                        <% product.reviews.reverse().forEach(function(review) { %>
+                            <div style="border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <strong><%= review.user_name %></strong>
+                                    <span style="color: #ffc107;">
+                                <% for(let i=1; i<=5; i++) { %>
+                                    <i style="color: <%= i <= review.rating ? '#ffc107' : '#e4e5e9' %>;">★</i>
+                                <% } %>
+                            </span>
+                                </div>
+                                <p style="margin: 0 0 5px 0; color: #444;">
+                                    <%= review.comment %>
+                                </p>
+                                <small style="color: #999;"><%= new Date(review.date).toLocaleDateString() %></small>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p style="color: #666; font-style: italic;">No reviews yet. Be the first to review this product!</p>
+                                    <% } %>
+                </div>
+    </div>
+
+    <script>
+        const basePrice = parseFloat("<%= product.price %>");
+
+        function calculateTotal() {
+            const quantityInput = document.getElementById("quantity");
+            const quantity = quantityInput ? (parseInt(quantityInput.value) || 1) : 1;
+
+            const total = basePrice * quantity;
+            document.getElementById("display-price").innerText = "৳ " + total.toFixed(2) + " (Total)";
+        }
+    </script>
+</body>
+
+</html>

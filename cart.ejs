@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fdfdfd;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #ff416c;
+            text-align: center;
+        }
+        
+        .back-link {
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .cart-table th,
+        .cart-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .cart-table th {
+            background: #f8f9fa;
+        }
+        
+        .product-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .total-row {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .checkout-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        input,
+        select,
+        textarea,
+        button {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #eee;
+            border-radius: 6px;
+        }
+        
+        .payment-instructions {
+            background: #fff8e1;
+            padding: 15px;
+            border-left: 4px solid #ffca28;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: none;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            margin-top: 20px;
+            border-radius: 25px;
+            padding: 15px;
+        }
+        
+        .btn-submit:hover {
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Continue Shopping</a>
+        <h1>🛒 Your Shopping Cart</h1>
+
+        <% if (cartItems.length > 0) { %>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% cartItems.forEach(item => { %>
+                        <tr>
+                            <td>
+                                <% if(item.image_url) { %>
+                                    <img src="<%= item.image_url %>" class="product-img">
+                                    <% } %>
+                                        <%= item.name %>
+                                            <% if(item.size) { %>
+                                                <br><small style="color: #666;">Size: <%= item.size %></small>
+                                                <% } %>
+                            </td>
+                            <td>৳
+                                <%= item.price %>
+                            </td>
+                            <td>
+                                <%= item.quantity %>
+                            </td>
+                            <td>৳
+                                <%= item.itemTotal %>
+                            </td>
+                            <td>
+                                <form action="/cart/remove" method="POST" style="margin:0;">
+                                    <input type="hidden" name="product_id" value="<%= item.product_id %>">
+                                    <button type="submit" class="remove-btn">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                            <tr>
+                                <td colspan="3" class="total-row">Cart Subtotal:</td>
+                                <td colspan="2" class="total-row">৳<span id="cart-total"><%= cartTotal %></span></td>
+                            </tr>
+                </tbody>
+            </table>
+
+            <div class="checkout-section">
+                <h2>Checkout Details</h2>
+                <div style="font-size: 1.3em; font-weight: bold; color: #28a745; margin-bottom: 10px;">
+                    Final Amount To Pay: <span id="final-total">৳<%= cartTotal %></span>
+                </div>
+
+                <form action="/order" method="POST">
+                    <label>Full Name:</label>
+                    <input type="text" name="name" required value="<%= user.name || '' %>" readonly>
+
+                    <label>Email ID:</label>
+                    <input type="email" name="email" required value="<%= user.email || '' %>" readonly>
+
+                    <label>Shipping Address:</label>
+                    <textarea name="address" rows="3" required placeholder="House 123, Road 4, City"></textarea>
+
+                    <label>Delivery Area:</label>
+                    <select name="shipping_area" id="shipping_area" required onchange="calculateFinalTotal()">
+                        <option value="" disabled selected>Select delivery area...</option>
+                        <option value="Inside Chittagong">Inside Chittagong (৳60)</option>
+                        <option value="Outside Chittagong">Outside Chittagong (৳150)</option>
+                    </select>
+
+                    <label>Payment Method:</label>
+                    <select name="payment_method" id="payment_method" required onchange="togglePaymentInstructions()">
+                        <option value="" disabled selected>Select a payment method...</option>
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="bKash">bKash</option>
+                        <option value="Rocket">Rocket</option>
+                    </select>
+
+                    <div id="payment-instructions" class="payment-instructions">
+                        <p>Please send the total amount to this personal number: <strong>017XXXXXXXX</strong></p>
+                        <p>After sending, enter your Transaction ID below:</p>
+                    </div>
+
+                    <div id="trxId-container" style="display: none; flex-direction: column; margin-top: 10px;">
+                        <label>Transaction ID (TrxID):</label>
+                        <input type="text" name="transaction_id" id="transaction_id" placeholder="e.g. 9BXXXXXX">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Confirm & Place Order</button>
+                </form>
+            </div>
+            <% } else { %>
+                <p style="text-align: center; color: #777; margin-top: 40px;">Your cart is empty.</p>
+                <% } %>
+    </div>
+
+    <script>
+        const cartTotal = parseFloat("<%= cartTotal %>");
+
+        function calculateFinalTotal() {
+            const area = document.getElementById("shipping_area").value;
+            let shippingCost = 0;
+            if (area === "Inside Chittagong") shippingCost = 60;
+            else if (area === "Outside Chittagong") shippingCost = 150;
+
+            const finalTotal = cartTotal + shippingCost;
+            document.getElementById("final-total").innerText = "৳" + finalTotal.toFixed(2);
+        }
+
+        function togglePaymentInstructions() {
+            const method = document.getElementById("payment_method").value;
+            const instructions = document.getElementById("payment-instructions");
+            const trxContainer = document.getElementById("trxId-container");
+            const trxInput = document.getElementById("transaction_id");
+
+            if (method === "bKash" || method === "Rocket") {
+                instructions.style.display = "block";
+                trxContainer.style.display = "flex";
+                trxInput.required = true;
+            } else {
+                instructions.style.display = "none";
+                trxContainer.style.display = "none";
+                trxInput.required = false;
+                trxInput.value = "";
+            }
+        }
+    </script>
+</body>
+
+</html>

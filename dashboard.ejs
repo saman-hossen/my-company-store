@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fdfdfd;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1,
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        input,
+        textarea,
+        button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        
+        button:hover {
+            background: #218838;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th,
+        td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #f4f4f4;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        
+        .delete-btn {
+            color: red;
+            text-decoration: none;
+        }
+        /* Responsive Styles */
+        
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 10px;
+            }
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Control Panel</h1>
+            <a href="/admin/logout" class="logout-btn">Logout</a>
+        </header>
+
+        <!-- Analytics Overview -->
+        <div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;">
+            <h2 style="color: #333; margin-top: 0; border-bottom: 2px solid #f4f4f4; padding-bottom: 10px;">Business Overview Analytics</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; justify-content: center; margin-top: 20px;">
+                <!-- Summary Metrics -->
+                <div style="flex: 1; min-width: 250px; display: grid; gap: 15px;">
+                    <div style="background: linear-gradient(135deg, #11998e, #38ef7d); padding: 20px; border-radius: 8px; color: white; box-shadow: 0 4px 10px rgba(56, 239, 125, 0.3);">
+                        <h3 style="margin: 0; font-size: 1.1em; opacity: 0.9;">Total Revenue</h3>
+                        <% 
+                            let revenue = 0;
+                            orders.forEach(o => { if(o.status === 'Accepted') revenue += o.total_amount; });
+                        %>
+                            <h2 style="margin: 10px 0 0 0; font-size: 2.2em;">৳
+                                <%= revenue.toFixed(2) %>
+                            </h2>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #FF416C, #FF4B2B); padding: 20px; border-radius: 8px; color: white; box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3);">
+                        <h3 style="margin: 0; font-size: 1.1em; opacity: 0.9;">Pending Orders Alert</h3>
+                        <h2 style="margin: 10px 0 0 0; font-size: 2.2em;">
+                            <%= orders.filter(o => o.status === 'Pending').length %> <span style="font-size: 0.4em; font-weight: normal;">New Tasks!</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- Sales Chart -->
+                <div style="flex: 2; min-width: 400px; height: 300px; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 15px;">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <%
+           const pendingOrders = orders.filter(o => o.status === 'Pending').length;
+           if(pendingOrders > 0) { 
+        %>
+            <div style="background-color: #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #ffeeba;">
+                <strong>Notification:</strong> You have
+                <%= pendingOrders %> pending order(s) waiting for approval!
+            </div>
+            <script>
+                // Optional JS audio/prompt alert that could trigger if a param exists or on load
+                // alert('You have <%= pendingOrders %> new pending order(s)!');
+            </script>
+            <% } %>
+
+                <div class="grid">
+                    <!-- Add Product Section -->
+                    <div class="section">
+                        <h2>Add New Product</h2>
+                        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
+                            <label>Product Name</label>
+                            <input type="text" name="name" required placeholder="Product Title">
+                            <label>Description</label>
+                            <textarea name="description" rows="3" required placeholder="Describe the product..."></textarea>
+                            <label>Category</label>
+                            <select name="category" required>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Vintage Jersey">Vintage Jersey</option>
+                        <option value="Home & Kitchen">Home & Kitchen</option>
+                        <option value="Beauty & Health">Beauty & Health</option>
+                        <option value="Sports & Outdoors">Sports & Outdoors</option>
+                        <option value="Toys & Games">Toys & Games</option>
+                        <option value="General">General / Other</option>
+                    </select>
+                            <label>Price (৳)</label>
+                            <input type="number" step="0.01" name="price" required placeholder="0.00">
+                            <label>Product Image</label>
+                            <input type="file" name="image" accept="image/*">
+                            <button type="submit">Publish Product</button>
+                        </form>
+                    </div>
+
+                    <!-- Edit About Section -->
+                    <div class="section" style="margin-top: 40px;">
+                        <h2>Edit "About Us" Page</h2>
+                        <form action="/admin/about" method="POST">
+                            <label>About Description</label>
+                            <textarea name="aboutText" rows="5" required placeholder="Write about your company here..."><%= typeof aboutText !== 'undefined' ? aboutText : '' %></textarea>
+                            <button type="submit">Update Information</button>
+                        </form>
+                    </div>
+
+                    <!-- Config Admin Email Section -->
+                    <div class="section" style="margin-top: 40px;">
+                        <h2>Order Notification Email</h2>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Set the email address where you want to receive new order notifications.</p>
+                        <form action="/admin/email" method="POST">
+                            <label>Admin Notification Email</label>
+                            <input type="email" name="adminEmail" required placeholder="admin@example.com" value="<%= typeof adminEmail !== 'undefined' ? adminEmail : '' %>">
+                            <button type="submit" style="background: #007bff;">Save Email Settings</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- View Orders Section -->
+                <div class="section" style="margin-top: 40px;">
+                    <h2>Pending Orders</h2>
+                    <div class="table-responsive">
+                        <% 
+                        const pendingList = orders.filter(o => o.status === 'Pending').reverse();
+                        const acceptedList = orders.filter(o => o.status === 'Accepted').reverse();
+                        const declinedList = orders.filter(o => o.status === 'Declined').reverse();
+                        %>
+                            <% if(pendingList.length > 0) { %>
+                                <table>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Payment</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <% pendingList.forEach(function(order) { %>
+                                        <tr>
+                                            <td>#
+                                                <%= order.id %>
+                                            </td>
+                                            <td>
+                                                <%= order.customer_name %><br><small><%= order.customer_email %></small></td>
+                                            <td>
+                                                <% if (order.items && order.items.length > 0) { %>
+                                                    <ul style="margin: 0; padding-left: 15px;">
+                                                        <% order.items.forEach(item => { %>
+                                                            <li>
+                                                                <%= item.name %> (Qty:
+                                                                    <%= item.quantity %>)</li>
+                                                            <% }); %>
+                                                    </ul>
+                                                    <% } else { %>
+                                                        <%= order.product_name ? order.product_name : '(Deleted)' %>
+                                                            <br><small>Qty: <%= order.quantity || 1 %></small>
+                                                            <% } %>
+                                            </td>
+                                            <td><strong><%= order.payment_method %></strong><br><small><%= order.transaction_id !== 'N/A' && order.transaction_id ? 'Trx: ' + order.transaction_id : '' %></small></td>
+                                            <td>
+                                                <span style="font-weight: bold; color: orange;"><%= order.status %></span><br>
+                                                <div style="margin-top: 5px; display: flex; gap: 5px;">
+                                                    <a href="/admin/orders/accept/<%= order.id %>" style="padding:4px 8px; font-size:12px; background:#28a745; color:white; border-radius:4px; text-decoration:none;">Accept</a>
+                                                    <a href="/admin/orders/decline/<%= order.id %>" style="padding:4px 8px; font-size:12px; background:#dc3545; color:white; border-radius:4px; text-decoration:none;">Decline</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </table>
+                                <% } else { %>
+                                    <p style="color: #666; font-style: italic;">No pending orders.</p>
+                                    <% } %>
+                    </div>
+
+                    <h2 style="margin-top: 30px;">Accepted Orders</h2>
+                    <div class="table-responsive">
+                        <% if(acceptedList.length > 0) { %>
+                            <table>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Status</th>
+                                </tr>
+                                <% acceptedList.forEach(function(order) { %>
+                                    <tr>
+                                        <td>#
+                                            <%= order.id %>
+                                        </td>
+                                        <td>
+                                            <%= order.customer_name %>
+                                        </td>
+                                        <td>
+                                            <% if (order.items && order.items.length > 0) { %>
+                                                <ul style="margin: 0; padding-left: 15px;">
+                                                    <% order.items.forEach(item => { %>
+                                                        <li>
+                                                            <%= item.name %> (Qty:
+                                                                <%= item.quantity %>)</li>
+                                                        <% }); %>
+                                                </ul>
+                                                <% } else { %>
+                                                    <%= order.product_name ? order.product_name : '(Deleted)' %>
+                                                        <br><small>Qty: <%= order.quantity || 1 %></small>
+                                                        <% } %>
+                                        </td>
+                                        <td><span style="font-weight: bold; color: green;"><%= order.status %></span></td>
+                                    </tr>
+                                    <% }); %>
+                            </table>
+                            <% } else { %>
+                                <p style="color: #666; font-style: italic;">No accepted orders.</p>
+                                <% } %>
+                    </div>
+
+                    <h2 style="margin-top: 30px;">Declined Orders</h2>
+                    <div class="table-responsive">
+                        <% if(declinedList.length > 0) { %>
+                            <table>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Status</th>
+                                </tr>
+                                <% declinedList.forEach(function(order) { %>
+                                    <tr>
+                                        <td>#
+                                            <%= order.id %>
+                                        </td>
+                                        <td>
+                                            <%= order.customer_name %>
+                                        </td>
+                                        <td>
+                                            <% if (order.items && order.items.length > 0) { %>
+                                                <ul style="margin: 0; padding-left: 15px;">
+                                                    <% order.items.forEach(item => { %>
+                                                        <li>
+                                                            <%= item.name %> (Qty:
+                                                                <%= item.quantity %>)</li>
+                                                        <% }); %>
+                                                </ul>
+                                                <% } else { %>
+                                                    <%= order.product_name ? order.product_name : '(Deleted)' %>
+                                                        <br><small>Qty: <%= order.quantity || 1 %></small>
+                                                        <% } %>
+                                        </td>
+                                        <td><span style="font-weight: bold; color: red;"><%= order.status %></span></td>
+                                    </tr>
+                                    <% }); %>
+                            </table>
+                            <% } else { %>
+                                <p style="color: #666; font-style: italic;">No declined orders.</p>
+                                <% } %>
+                    </div>
+                </div>
+    </div>
+
+    <!-- View Products Table -->
+    <div class="section" style="margin-top: 40px;">
+        <h2>Your Products</h2>
+        <div class="table-responsive">
+            <table>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                <% products.forEach(function(product) { %>
+                    <tr>
+                        <td>
+                            <% if(product.image_url) { %>
+                                <img src="<%= product.image_url %>" alt="<%= product.name %>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                <% } else { %>
+                                    -
+                                    <% } %>
+                        </td>
+                        <td>
+                            <%= product.name %>
+                        </td>
+                        <td>
+                            <span style="background: #eee; padding: 3px 8px; border-radius: 12px; font-size: 12px;"><%= product.category || 'General' %></span>
+                        </td>
+                        <td>৳
+                            <%= parseFloat(product.price).toFixed(2) %>
+                        </td>
+                        <td><a href="/admin/products/delete/<%= product.id %>" class="delete-btn" onclick="return confirm('Are you sure?')">Delete</a></td>
+                    </tr>
+                    <% }); %>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <!-- Chart.js Integration for Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        <% 
+            let dailySales = {};
+            orders.filter(o => o.status === 'Accepted').forEach(o => {
+                let dateStr = new Date(o.createdAt).toLocaleDateString();
+                dailySales[dateStr] = (dailySales[dateStr] || 0) + o.total_amount;
+            });
+            const labels = Object.keys(dailySales);
+            const data = Object.values(dailySales);
+        %>
+
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <%- JSON.stringify(labels) %>,
+                datasets: [{
+                    label: 'Daily Revenue (৳)',
+                    data: <%- JSON.stringify(data) %>,
+                    borderColor: '#11998e',
+                    backgroundColor: 'rgba(17, 153, 142, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Sales Trend'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

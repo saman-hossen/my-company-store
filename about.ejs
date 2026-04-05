@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fdfdfd;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+        }
+        
+        h1 {
+            color: #ff416c;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0072ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+        /* Mobile Optimization */
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>About Us</h1>
+        <p>
+            <%= aboutText %>
+        </p>
+        <a href="/" class="back-btn">Back to Shop</a>
+    </div>
+</body>
+
+</html>

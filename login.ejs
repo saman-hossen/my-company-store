@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fdfdfd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        h1 {
+            color: #ff416c;
+            text-align: center;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        input,
+        button {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        
+        button {
+            background: #0072ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        p {
+            text-align: center;
+        }
+        
+        a {
+            color: #0072ff;
+            text-decoration: none;
+        }
+        
+        .error {
+            background: #ffeeba;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>Welcome Back</h1>
+        <% if(error) { %>
+            <div class="error">
+                <%= error %>
+            </div>
+            <% } %>
+                <form action="/login" method="POST">
+                    <input type="email" name="email" required placeholder="Your Email">
+                    <input type="password" name="password" required placeholder="Password">
+                    <button type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <a href="/register">Register here</a></p>
+                <p><a href="/">← Go back</a></p>
+    </div>
+</body>
+
+</html>

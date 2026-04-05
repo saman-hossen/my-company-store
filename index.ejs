@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Company Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            color: #fff;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 30px rgba(37, 117, 252, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-family: inherit;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            transform: rotate(30deg);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .menu-container {
+            position: relative;
+        }
+        
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 100;
+            min-width: 150px;
+            text-align: left;
+        }
+        
+        .dropdown a {
+            display: block;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+        
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown a:hover {
+            background: #f8f9fa;
+            color: #ff4b2b;
+        }
+        
+        .menu-container.active .dropdown {
+            display: block;
+        }
+        
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .cart-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .cart-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .search-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .search-container input {
+            padding: 12px 20px;
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #ddd;
+            border-radius: 25px 0 0 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-container button {
+            padding: 12px 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        
+        .search-container button:hover {
+            background: #218838;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        
+        .price {
+            font-size: 1.4rem;
+            color: #ff4b2b;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+        }
+        /* Mobile Optimization */
+        
+        @media (max-width: 768px) {
+            .search-container form {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            .search-container select,
+            .search-container input {
+                border-radius: 25px;
+                width: 90%;
+            }
+            .search-container button,
+            .search-container a {
+                border-radius: 25px !important;
+                width: 50%;
+                text-align: center;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .hero-carousel {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            height: 350px;
+            background: #000;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out, transform 4s linear;
+            transform: scale(1.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 5;
+        }
+        
+        .carousel-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+            opacity: 0;
+        }
+        
+        .carousel-slide.active .carousel-content {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.3s;
+        }
+        
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .dot.active {
+            background: white;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+        
+        .hero-btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.5);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .hero-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 75, 43, 0.7);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-nav">
+            <a href="/cart" class="cart-link">Cart</a>
+            <div class="menu-container" id="menu-container">
+                <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+                <div class="dropdown">
+                    <a href="/">Home</a>
+                    <a href="/about">About Us</a>
+                    <% if(user) { %>
+                        <a href="/profile">My Profile</a>
+                        <a href="/logout">Logout</a>
+                        <% } else { %>
+                            <a href="/login">Login / Register</a>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+        <h1 style="font-size: 3.5rem; text-shadow: 2px 4px 6px rgba(0,0,0,0.3); margin-top: 40px; font-weight: 800;">Welcome to Our Store</h1>
+        <% if(user) { %>
+            <p style="font-size: 1.4rem; font-weight: 500; margin-bottom: 10px; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.5); display: inline-block; padding: 6px 24px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px);">
+                Hello,
+                <%= user.name %>!
+            </p>
+            <% } %>
+                <p style="font-size: 1.2rem; opacity: 0.95; font-weight: 500;">Discover the best products at unbeatable prices.</p>
+    </header>
+
+    <!-- Hero Banner Carousel -->
+    <div class="hero-carousel" id="mainCarousel">
+        <!-- ========================================================================= -->
+        <!--  TO CHANGE BANNERS: Edit the background-image URL, h1, p, and href links  -->
+        <!-- ========================================================================= -->
+
+        <!-- Slide 1 -->
+        <div class="carousel-slide active">
+            <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80') center/cover;"></div>
+            <div class="carousel-content">
+                <h1 style="font-size: 3.5em; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Premium Electronics!</h1>
+                <p style="font-size: 1.3em; margin: 0 0 25px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Explore our high-quality Electronics & Devices.</p>
+                <a href="/?category=Electronics" class="hero-btn">Shop Electronics</a>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-slide">
+            <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80') center/cover;"></div>
+            <div class="carousel-content">
+                <h1 style="font-size: 3.5em; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">New Arrivals</h1>
+                <p style="font-size: 1.3em; margin: 0 0 25px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Explore our latest premium clothing collection.</p>
+                <a href="/?category=Clothing" class="hero-btn" style="background: linear-gradient(45deg, #11998e, #38ef7d); box-shadow: 0 4px 15px rgba(17, 153, 142, 0.5);">View Fashion</a>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide">
+            <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1555529771-835f59fc5efe?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80') center/cover;"></div>
+            <div class="carousel-content">
+                <h1 style="font-size: 3.5em; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Exclusive Deals</h1>
+                <p style="font-size: 1.3em; margin: 0 0 25px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Save big on top-rated products across all categories!</p>
+                <a href="/" class="hero-btn" style="background: linear-gradient(45deg, #8E2DE2, #4A00E0); box-shadow: 0 4px 15px rgba(142, 45, 226, 0.5);">Shop All Deals</a>
+            </div>
+        </div>
+
+        <!-- Dots Control -->
+        <div class="carousel-controls">
+            <div class="dot active" onclick="currentSlide(0)"></div>
+            <div class="dot" onclick="currentSlide(1)"></div>
+            <div class="dot" onclick="currentSlide(2)"></div>
+        </div>
+    </div>
+
+    <!-- Carousel Logic -->
+    <script>
+        let slideIndex = 0;
+        let slideTimer;
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dots = document.querySelectorAll(".dot");
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove("active"));
+            dots.forEach(dot => dot.classList.remove("active"));
+            slideIndex = n;
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+            slides[slideIndex].classList.add("active");
+            dots[slideIndex].classList.add("active");
+        }
+
+        function nextSlide() {
+            showSlide(slideIndex + 1);
+        }
+
+        function currentSlide(n) {
+            showSlide(n);
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, 5000);
+        }
+
+        // Start Auto-play
+        resetTimer();
+    </script>
+
+    <!-- Category Pills -->
+    <div style="max-width: 1200px; margin: 0 auto 20px auto; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin;">
+        <a href="/" style="padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; white-space: nowrap; transition: all 0.2s; <%= (!categoryQuery && !searchQuery) ? 'background: #ff4b2b; color: white; box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3);' : 'background: white; color: #555; border: 1px solid #ddd;' %>">All Products</a>
+        <% categories.forEach(function(cat) { %>
+            <a href="/?category=<%= encodeURIComponent(cat) %>" style="padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; white-space: nowrap; transition: all 0.2s; <%= (categoryQuery === cat) ? 'background: #ff4b2b; color: white; box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3);' : 'background: white; color: #555; border: 1px solid #ddd;' %>">
+                <%= cat %>
+            </a>
+            <% }); %>
+    </div>
+
+    <div class="search-container">
+        <form action="/" method="GET" style="display:flex; width: 100%; justify-content: center; max-width: 600px; margin: 0 auto; gap: 10px;">
+            <% if (typeof categoryQuery !== 'undefined' && categoryQuery) { %>
+                <input type="hidden" name="category" value="<%= categoryQuery %>">
+                <% } %>
+                    <input type="text" name="q" placeholder="Search within <%= categoryQuery ? categoryQuery : 'all products' %>..." value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" style="flex: 1; padding: 12px 20px; border-radius: 25px; border: 2px solid #ddd; outline: none; font-size: 16px;">
+                    <button type="submit" style="padding: 12px 25px; background: #333; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: background 0.2s;">Search</button>
+                    <% if((typeof searchQuery !== 'undefined' && searchQuery) || (typeof categoryQuery !== 'undefined' && categoryQuery)) { %>
+                        <a href="/" style="padding: 12px 20px; background: #f8f9fa; color: #333; border: 1px solid #ccc; text-decoration: none; border-radius: 25px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Clear</a>
+                        <% } %>
+        </form>
+    </div>
+
+    <div class="grid">
+        <% products.forEach(function(product) { %>
+            <div class="card">
+                <% if(product.image_url) { %>
+                    <img src="<%= product.image_url %>" alt="<%= product.name %>">
+                    <% } else { %>
+                        <div style="height:200px; background:#e0e0e0; display:flex; align-items:center; justify-content:center;">No Image</div>
+                        <% } %>
+                            <p style="font-size: 0.85rem; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: bold;">
+                                <%= product.category || 'General' %>
+                            </p>
+                            <h3>
+                                <%= product.name %>
+                            </h3>
+                            <div class="price">৳
+                                <%= parseFloat(product.price).toFixed(2) %>
+                            </div>
+                            <a href="/product/<%= product.id %>" class="btn">View & Buy</a>
+            </div>
+            <% }); %>
+
+                <% if(products.length === 0) { %>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <% if(typeof searchQuery !== 'undefined' && searchQuery.trim() !== '') { %>
+                            <h2 style="color: #ff4b2b; margin-bottom: 10px;">Unavailable</h2>
+                            <p style="font-size: 1.2rem; color: #555;">Sorry, the product you searched for is currently not available.</p>
+                            <% } else { %>
+                                <p style="font-size: 1.2rem; color: #555;">No products available yet. Check back soon!</p>
+                                <% } %>
+                    </div>
+                    <% } %>
+    </div>
+
+    <!-- Script for the hamburger menu -->
+    <script>
+        function toggleMenu() {
+            var menuContainer = document.getElementById("menu-container");
+            menuContainer.classList.toggle("active");
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn')) {
+                var menuContainer = document.getElementById("menu-container");
+                if (menuContainer.classList.contains('active')) {
+                    menuContainer.classList.remove('active');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
